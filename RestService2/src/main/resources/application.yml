@@ -1,0 +1,9 @@
+# https://docs.spring.io/spring-cloud-netflix/docs/current/reference/html/
+eureka:
+  instance:
+    lease-renewal-interval-in-seconds: 1
+    lease-expiration-duration-in-seconds: 2
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+
