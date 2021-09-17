@@ -26,5 +26,8 @@ public class UICtrl {
   }
   
   
-  
+  @GetMapping( "/newPatient" )
+  public String newPatient() {
+    return "newPatient";
+  }
 }

@@ -1,1 +1,1 @@
-java -jar RestService2.war
+java -jar RestService2.jar

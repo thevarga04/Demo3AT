@@ -14,7 +14,7 @@
   
   <%-- The UI --%>
   <script src="<c:url value="/resources/js/newDoctor.js" />"></script>
-  
+  <link href="<c:url value="/resources/css/ui.css" />" rel="stylesheet">
   
 </head>
 <body>

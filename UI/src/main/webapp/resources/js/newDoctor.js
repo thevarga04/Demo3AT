@@ -35,7 +35,7 @@ function createDoctorUI() {
   textarea.name = "details";
   textarea.maxLength = 4096;
   textarea.setAttribute("class", "form-control text-input" );
-  textarea.rows = 6;
+  textarea.rows = 3;
   textarea.placeholder = "Insert some text describing the doctor";
   data_div.append( textarea );
 }

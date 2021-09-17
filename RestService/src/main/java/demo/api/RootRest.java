@@ -3,7 +3,10 @@ package demo.api;
 import demo.GeneralClass;
 import demo.entity.Doctors;
 import demo.entity.Illnesses;
+import demo.entity.Patients;
+import demo.model.PatientDto;
 import demo.service.IllnessesService;
+import demo.service.PatientsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +30,8 @@ public class RootRest extends GeneralClass {
   
   @Autowired
   IllnessesService illnessesService;
+  @Autowired
+  PatientsService patientsService;
   @Autowired
   WebClient.Builder webClient;
   @Autowired
@@ -69,11 +74,14 @@ public class RootRest extends GeneralClass {
   }
   
   
+  
+  /**
+   * Illnesses
+   */
   @GetMapping( "/getIllness" )
   public ResponseEntity<List<Illnesses>> getIllness() {
     return ResponseEntity.ok( illnessesService.findAll() );
   }
-  
   
   @PostMapping( "/saveIllness" )
   public ResponseEntity<String> saveIllness( Illnesses dto ) {
@@ -85,7 +93,6 @@ public class RootRest extends GeneralClass {
       return ResponseEntity.status( HttpStatus.NOT_IMPLEMENTED ).body( "" );
   }
   
-  
   @GetMapping( "/deleteIllness/{id}" )
   public ResponseEntity<Integer> deleteIllness( @PathVariable("id") int id ) {
     int deleted = illnessesService.deleteIllness( id );
@@ -93,6 +100,36 @@ public class RootRest extends GeneralClass {
     if ( deleted == 0 )
       return new ResponseEntity<>( deleted, HttpStatus.NOT_IMPLEMENTED );
   
+    return new ResponseEntity<>( deleted, HttpStatus.OK );
+  }
+  
+  
+  
+  /**
+   * Patients
+   */
+  @GetMapping( "/getPatient" )
+  public ResponseEntity<List<PatientDto>> getPatient() {
+    return ResponseEntity.ok( patientsService.findAll() );
+  }
+  
+  @PostMapping( "/savePatient" )
+  public ResponseEntity<String> savePatient( @RequestBody PatientDto dto ) {
+    Patients patients = patientsService.save( dto );
+  
+    if ( patients != null && patients.getId() > 0 )
+      return ResponseEntity.ok( "" );
+    else
+      return ResponseEntity.status( HttpStatus.NOT_IMPLEMENTED ).body( "" );
+  }
+  
+  @GetMapping( "/deletePatient/{id}" )
+  public ResponseEntity<Integer> deletePatient( @PathVariable("id") int id ) {
+    int deleted = patientsService.deletePatient( id );
+    
+    if ( deleted == 0 )
+      return new ResponseEntity<>( deleted, HttpStatus.NOT_IMPLEMENTED );
+    
     return new ResponseEntity<>( deleted, HttpStatus.OK );
   }
   
@@ -108,7 +145,6 @@ public class RootRest extends GeneralClass {
     return restTemplate.getForEntity( "http://rest2/api/getDoctor", Doctors[].class );
   }
   
-  
   @PostMapping( "/saveDoctor" )
   public ResponseEntity<String> saveDoctor( @RequestBody Doctors dto ) {
     info( appName + " is about to save a doctor ... " + counter.incrementAndGet() );
@@ -116,7 +152,6 @@ public class RootRest extends GeneralClass {
     
     return restTemplate.postForEntity( "http://rest2/api/saveDoctor", entity, String.class );
   }
-  
   
   @GetMapping( "/deleteDoctor/{id}" )
   public ResponseEntity<Integer> deleteDoctor( @PathVariable("id") int id ) {

@@ -1,13 +1,19 @@
 let data_div;                         // Container to generate the data: Legend, test, buttons
+let storage = window.sessionStorage;  // Session storage
 
 let resources = new Map();
 resources.set( "Illness", "http://localhost:38001/api/" );
 resources.set( "Doctor", "http://localhost:38001/api/" );
+resources.set( "Patient", "http://localhost:38001/api/" );
+
 
 let colors = new Map();
 colors.set( "Illness", "danger" );
 colors.set( "Doctor", "success" );
+colors.set( "Patient", "primary" );
 
+let doctor = [];
+let illness = [];
 
 document.addEventListener('DOMContentLoaded', function() {
   data_div = document.getElementById( 'data_div' );
@@ -47,6 +53,10 @@ function getAndShowResources() {
 function getResource( resource, url ) {
   let xhttp = new XMLHttpRequest();
   xhttp.open( 'GET', url + "get" + resource );
+  
+  // TODO: Timeout & load balancing ...
+  // xhttp.timeout = 500;
+  
   xhttp.send();
   
   xhttp.onreadystatechange = function () {
@@ -73,7 +83,16 @@ function showResource( resource, url, dto ) {
   data_div.append( div_row );
   
   
+  // Collect the data to store them a session storage
+  doctor = [];
+  illness = [];
   for ( let i of dto ) {
+    if ( resource === "Doctor" ) {
+      doctor.push( i.id + "." + i.name );
+    } else if ( resource === "Illness" ) {
+      illness.push( i.id + "." + i.name );
+    }
+    
     let card = document.createElement("div");
     card.setAttribute("class", "card my-0 py-0");
     card.id = resource + "_" + i.id;
@@ -108,6 +127,13 @@ function showResource( resource, url, dto ) {
     body.append( row );
     card.append( body );
     data_div.append( card );
+  }
+  
+  // Store the data in a session storage
+  if ( resource === "Doctor" ) {
+    storage.setItem( "doctor", JSON.stringify( doctor ) );
+  } else if ( resource === "Illness" ) {
+    storage.setItem( "illness", JSON.stringify( illness ) );
   }
 }
 

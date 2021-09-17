@@ -1,3 +1,4 @@
+-- Schema
 CREATE TABLE illnesses (
   id              serial              PRIMARY KEY,
   name            varchar             NOT NULL UNIQUE,
@@ -26,3 +27,10 @@ CREATE TABLE patients_illnesses (
 
 INSERT INTO illnesses ( name, details ) VALUES ( 'Covid-19', 'Symptoms of COVID-19 are variable, but often include fever, cough, headache, fatigue, breathing difficulties, and loss of smell and taste.' );
 INSERT INTO illnesses ( name, details ) VALUES ( 'Common cold', 'Signs and symptoms may appear less than two days after exposure to the virus.' );
+
+
+
+-- DML
+SELECT * FROM doctors;
+SELECT * FROM patients;
+SELECT * FROM patients_illnesses;

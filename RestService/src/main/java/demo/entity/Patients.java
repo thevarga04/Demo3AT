@@ -29,4 +29,14 @@ public class Patients {
     joinColumns = { @JoinColumn( name = "patient") },
     inverseJoinColumns = { @JoinColumn( name = "illness") })
   private Set<Illnesses> illnesses = new HashSet<>();
+  
+  
+  
+  public Patients() {}
+  public Patients( String name, String details, Doctors doctors, Set<Illnesses> illnesses ) {
+    this.name = name;
+    this.details = details;
+    this.doctors = doctors;
+    this.illnesses = illnesses;
+  }
 }
