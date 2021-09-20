@@ -2,6 +2,8 @@ package demo.api;
 
 import demo.entity.Doctors;
 import demo.service.DoctorsService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +15,8 @@ import java.util.List;
 @RestController
 @RequestMapping( "/api" )
 public class RootRest {
+  private static final Logger LOGGER = LoggerFactory.getLogger( RootRest.class );
+  
   @Autowired
   DoctorsService doctorsService;
   
@@ -26,12 +30,10 @@ public class RootRest {
   
   @GetMapping( "/getDoctor" )
   public ResponseEntity<List<Doctors>> getDoctor() {
-    return ResponseEntity.ok( doctorsService.findAll() );
-  }
-  
-  @GetMapping( "/allDoctor" )
-  public List<Doctors> allDoctor() {
-    return doctorsService.findAll();
+    List<Doctors> doctorsList = doctorsService.findAll();
+    LOGGER.info( "getDoctor: {}", doctorsList.size() );
+    
+    return ResponseEntity.ok( doctorsList );
   }
   
   
@@ -40,6 +42,7 @@ public class RootRest {
    */
   @PostMapping( value = "/saveDoctor" )
   public ResponseEntity<String> saveDoctor( @RequestBody Doctors dto ) {
+    LOGGER.info( "saveDoctor: {}", dto );
     Doctors doctors = doctorsService.save( dto );
     
     if ( doctors != null && doctors.getId() > 0 )
@@ -51,6 +54,7 @@ public class RootRest {
   
   @GetMapping( "/deleteDoctor/{id}" )
   public ResponseEntity<Integer> deleteDoctor( @PathVariable("id") int id ) {
+    LOGGER.info( "deleteDoctor: {}", id );
     int deleted = doctorsService.deleteDoctor( id );
     
     if ( deleted == 0 )

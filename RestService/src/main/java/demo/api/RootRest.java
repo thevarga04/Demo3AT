@@ -80,11 +80,15 @@ public class RootRest extends GeneralClass {
    */
   @GetMapping( "/getIllness" )
   public ResponseEntity<List<Illnesses>> getIllness() {
-    return ResponseEntity.ok( illnessesService.findAll() );
+    List<Illnesses> illnessesList = illnessesService.findAll();
+    LOGGER.info( "getIllness: {}", illnessesList.size() );
+    
+    return ResponseEntity.ok( illnessesList );
   }
   
   @PostMapping( "/saveIllness" )
   public ResponseEntity<String> saveIllness( Illnesses dto ) {
+    LOGGER.info( "saveIllness: {}", dto );
     Illnesses illnesses = illnessesService.save( dto );
     
     if ( illnesses != null && illnesses.getId() > 0 )
@@ -95,6 +99,7 @@ public class RootRest extends GeneralClass {
   
   @GetMapping( "/deleteIllness/{id}" )
   public ResponseEntity<Integer> deleteIllness( @PathVariable("id") int id ) {
+    LOGGER.info( "deleteIllness: {}", id );
     int deleted = illnessesService.deleteIllness( id );
     
     if ( deleted == 0 )
@@ -110,11 +115,15 @@ public class RootRest extends GeneralClass {
    */
   @GetMapping( "/getPatient" )
   public ResponseEntity<List<PatientDto>> getPatient() {
-    return ResponseEntity.ok( patientsService.findAll() );
+    List<PatientDto> patientList = patientsService.findAll();
+    LOGGER.info( "getPatient: {}", patientList.size() );
+    
+    return ResponseEntity.ok( patientList );
   }
   
   @PostMapping( "/savePatient" )
   public ResponseEntity<String> savePatient( @RequestBody PatientDto dto ) {
+    LOGGER.info( "savePatient: {}", dto );
     Patients patients = patientsService.save( dto );
   
     if ( patients != null && patients.getId() > 0 )
@@ -125,6 +134,7 @@ public class RootRest extends GeneralClass {
   
   @GetMapping( "/deletePatient/{id}" )
   public ResponseEntity<Integer> deletePatient( @PathVariable("id") int id ) {
+    LOGGER.info( "deletePatient: {}", id );
     int deleted = patientsService.deletePatient( id );
     
     if ( deleted == 0 )
