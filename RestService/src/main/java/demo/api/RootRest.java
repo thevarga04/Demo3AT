@@ -7,11 +7,13 @@ import demo.entity.Patients;
 import demo.model.PatientDto;
 import demo.service.IllnessesService;
 import demo.service.PatientsService;
+import org.apache.http.impl.client.CloseableHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
 import org.springframework.http.*;
@@ -23,6 +25,7 @@ import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
+@RefreshScope                         // POST http://host:port/refresh
 @RestController
 @RequestMapping( "/api" )
 public class RootRest extends GeneralClass {
@@ -50,20 +53,6 @@ public class RootRest extends GeneralClass {
     appName = env.getProperty( "spring.application.name" );
     headers = new HttpHeaders();
     headers.setContentType( MediaType.APPLICATION_JSON );
-  }
-  
-  
-  
-  @Bean
-  @LoadBalanced
-  public WebClient.Builder webClient() {
-    return WebClient.builder();
-  }
-  
-  @Bean
-  @LoadBalanced
-  public RestTemplate restTemplate( RestTemplateBuilder builder ) {
-    return builder.build();
   }
   
   

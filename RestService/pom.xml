@@ -17,7 +17,21 @@
   
   <properties>
     <java.version>1.8</java.version>
+    <spring-cloud.version>2020.0.3</spring-cloud.version>
   </properties>
+  
+  
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-dependencies</artifactId>
+        <version>${spring-cloud.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
   
   
   <dependencies>
@@ -86,6 +100,15 @@
       <artifactId>javax.interceptor-api</artifactId>
       <version>1.2.2</version>
     </dependency>
+  
+    <!-- @NonNullApi: Error:java: cannot access javax.annotation.Nonnull	-->
+    <dependency>
+      <groupId>com.google.code.findbugs</groupId>
+      <artifactId>jsr305</artifactId>
+      <version>3.0.2</version>
+    </dependency>
+    
+
     
     <!-- Monitoring -->
     <dependency>
@@ -97,7 +120,6 @@
       <artifactId>spring-boot-admin-starter-client</artifactId>
       <version>2.5.0</version>
     </dependency>
-    
   
     <!-- Eureka Client (or Zookeeper or Consul) -->
     <dependency>
@@ -119,7 +141,13 @@
       <artifactId>jolokia-core</artifactId>
     </dependency>
     
+    <!-- Config Client -->
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-config</artifactId>
+    </dependency>
   </dependencies>
+  
   
   <build>
     <plugins>
