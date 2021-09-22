@@ -13,6 +13,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 @EnableEurekaClient         // alias for more general: @EnableDiscoveryClient
 @SpringBootApplication
 public class RestService extends SpringBootServletInitializer {
+  
   @Bean
   @LoadBalanced
   public WebClient.Builder webClient() {

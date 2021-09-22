@@ -11,6 +11,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
@@ -25,7 +26,7 @@ import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-@RefreshScope                         // POST http://host:port/refresh
+@RefreshScope                         // POST http://localhost:38001/actuator/refresh
 @RestController
 @RequestMapping( "/api" )
 public class RootRest extends GeneralClass {
@@ -42,10 +43,15 @@ public class RootRest extends GeneralClass {
   @Autowired
   Environment env;
   
+  @Value("${com.ymca.invoice.header}")
+  String comYmcaInvoiceHeader;
+  
+  
   
   String appName;
   AtomicInteger counter = new AtomicInteger( 0 );
   HttpHeaders headers;
+  
   
   
   @PostConstruct
@@ -58,8 +64,8 @@ public class RootRest extends GeneralClass {
   
   
   @GetMapping({ "/", "/home", "/root" })
-  public ResponseEntity<HttpStatus> home() {
-    return ResponseEntity.ok( null );
+  public ResponseEntity<String> home() {
+    return ResponseEntity.ok( comYmcaInvoiceHeader );
   }
   
   
